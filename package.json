@@ -12,7 +12,7 @@
     "test:eslint": "eslint ."
   },
   "dependencies": {
-    "@architect/architect": "^9.5.4",
+    "@architect/architect": "^10.0.2",
     "@architect/functions": "^4.1.2"
   },
   "devDependencies": {
