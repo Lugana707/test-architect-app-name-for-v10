@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  web:
+    build:
+      context: .
+      target: base
+    command: sh -c "yarn install --frozen-lockfile && yarn start"
+    working_dir: /src
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./src/static/frontend:/src
+      - yarn_cache:/cache/yarn
+      - node_modules__static_frontend:/src/node_modules
+
+  api:
+    build:
+      context: .
+      target: local
+    command: sh -c "yarn install --frozen-lockfile && yarn start"
+    ports:
+      - '3333:3333'
+    environment:
+      SSH_AUTH_SOCK: /ssh-agent
+      AWS_PROFILE: kiratalent
+    volumes:
+      - .:/src
+      - ./src/static/frontend/build:/src/build
+      - yarn_cache:/cache/yarn
+      - node_modules:/src/node_modules
+      - ~/.aws:/root/.aws
+      - ${SSH_AUTH_SOCK:?err}:/ssh-agent:cached,ro
+      - ~/.ssh/known_hosts:/root/.ssh/known_hosts:cached,ro
+      - ~/.gitconfig:/root/.gitconfig
+
+volumes:
+  yarn_cache:
+    name: kira-yarn_cache
+  node_modules: {}
+  node_modules__static_frontend: {}
