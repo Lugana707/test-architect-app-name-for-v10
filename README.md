@@ -6,6 +6,17 @@
 arc deploy --name PR99
 ```
 
+## The Problem
+
+After some testing, it appears that upgrading `@architect/functions` to `5.0.3` causes the problem; the below versions work fine.
+
+```json
+"dependencies": {
+  "@architect/architect": "^10.0.2",
+  "@architect/functions": "^4.1.2"
+},
+```
+
 ## Testing
 
 Navigate to the API, `/user/123`.
