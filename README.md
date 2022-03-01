@@ -6,7 +6,7 @@
 arc deploy --name PR99
 ```
 
-## The Problem
+## `@architect/functions` Versions
 
 After some testing, it appears that upgrading `@architect/functions` to `5.0.3` causes the problem; the below versions work fine.
 
