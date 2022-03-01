@@ -1,19 +1,59 @@
-[![Deploy Production](https://github.com/kira/product-quantitative-assessment/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/kira/product-quantitative-assessment/actions/workflows/deploy-production.yml)
-[![Deploy Staging](https://github.com/kira/product-quantitative-assessment/actions/workflows/deploy-staging.yml/badge.svg)](https://github.com/kira/product-quantitative-assessment/actions/workflows/deploy-staging.yml)
+# test-architect-app-name-for-v10
 
-[![Main Updated](https://github.com/kira/product-quantitative-assessment/actions/workflows/main-updated.yml/badge.svg)](https://github.com/kira/product-quantitative-assessment/actions/workflows/main-updated.yml)
+## Deployment
 
-# Product / Quantitative Assessment
+```bash
+arc deploy --name PR99
+```
 
-Micro-service that encompasses everything related to the _Quantitative Assessment_ production.
+## Testing
 
-## Environments
+Navigate to the API, `/user/123`.
 
-| Environment | API                                                        | Frontend                               |
-| ----------- | ---------------------------------------------------------- | -------------------------------------- |
-| staging     | https://kk7pvan58a.execute-api.ca-central-1.amazonaws.com/ | https://d3jxlijdg1866u.cloudfront.net/ |
-| production  | https://ge182yfq3f.execute-api.ca-central-1.amazonaws.com/ | https://d2mgj6yo1vbtgb.cloudfront.net/ |
+With Architect v9 you get a 404, however with Architect v10 you get:
 
-## Experimental Status
+```json
+{"message":"Internal Server Error"}
+```
 
-This is currently experimental, working with [arc.codes](https://arc.codes/).
+And the following logs:
+
+```json
+{
+    "errorType": "Runtime.UnhandledPromiseRejection",
+    "errorMessage": "AccessDeniedException: User: arn:aws:sts::406091954977:assumed-role/TestArchitectAppNameStagingPR99-Role-1KK3WB2JCY347/TestArchitectAppNameStagingPR9-GetUserIdHTTPLambda-51O7i9WWtYtO is not authorized to perform: ssm:GetParametersByPath on resource: arn:aws:ssm:ca-central-1:406091954977:parameter/TestArchitectAppNameStaging because no identity-based policy allows the ssm:GetParametersByPath action",
+    "reason": {
+        "errorType": "AccessDeniedException",
+        "errorMessage": "User: arn:aws:sts::406091954977:assumed-role/TestArchitectAppNameStagingPR99-Role-1KK3WB2JCY347/TestArchitectAppNameStagingPR9-GetUserIdHTTPLambda-51O7i9WWtYtO is not authorized to perform: ssm:GetParametersByPath on resource: arn:aws:ssm:ca-central-1:406091954977:parameter/TestArchitectAppNameStaging because no identity-based policy allows the ssm:GetParametersByPath action",
+        "code": "AccessDeniedException",
+        "message": "User: arn:aws:sts::406091954977:assumed-role/TestArchitectAppNameStagingPR99-Role-1KK3WB2JCY347/TestArchitectAppNameStagingPR9-GetUserIdHTTPLambda-51O7i9WWtYtO is not authorized to perform: ssm:GetParametersByPath on resource: arn:aws:ssm:ca-central-1:406091954977:parameter/TestArchitectAppNameStaging because no identity-based policy allows the ssm:GetParametersByPath action",
+        "time": "2022-03-01T00:44:10.148Z",
+        "requestId": "bed90bc0-8171-4382-b811-feef923a243d",
+        "statusCode": 400,
+        "retryable": false,
+        "retryDelay": 18.78129852039887,
+        "stack": [
+            "AccessDeniedException: User: arn:aws:sts::406091954977:assumed-role/TestArchitectAppNameStagingPR99-Role-1KK3WB2JCY347/TestArchitectAppNameStagingPR9-GetUserIdHTTPLambda-51O7i9WWtYtO is not authorized to perform: ssm:GetParametersByPath on resource: arn:aws:ssm:ca-central-1:406091954977:parameter/TestArchitectAppNameStaging because no identity-based policy allows the ssm:GetParametersByPath action",
+            "    at Request.extractError (/var/runtime/node_modules/aws-sdk/lib/protocol/json.js:52:27)",
+            "    at Request.callListeners (/var/runtime/node_modules/aws-sdk/lib/sequential_executor.js:106:20)",
+            "    at Request.emit (/var/runtime/node_modules/aws-sdk/lib/sequential_executor.js:78:10)",
+            "    at Request.emit (/var/runtime/node_modules/aws-sdk/lib/request.js:686:14)",
+            "    at Request.transition (/var/runtime/node_modules/aws-sdk/lib/request.js:22:10)",
+            "    at AcceptorStateMachine.runTo (/var/runtime/node_modules/aws-sdk/lib/state_machine.js:14:12)",
+            "    at /var/runtime/node_modules/aws-sdk/lib/state_machine.js:26:10",
+            "    at Request.<anonymous> (/var/runtime/node_modules/aws-sdk/lib/request.js:38:9)",
+            "    at Request.<anonymous> (/var/runtime/node_modules/aws-sdk/lib/request.js:688:12)",
+            "    at Request.callListeners (/var/runtime/node_modules/aws-sdk/lib/sequential_executor.js:116:18)"
+        ]
+    },
+    "promise": {},
+    "stack": [
+        "Runtime.UnhandledPromiseRejection: AccessDeniedException: User: arn:aws:sts::406091954977:assumed-role/TestArchitectAppNameStagingPR99-Role-1KK3WB2JCY347/TestArchitectAppNameStagingPR9-GetUserIdHTTPLambda-51O7i9WWtYtO is not authorized to perform: ssm:GetParametersByPath on resource: arn:aws:ssm:ca-central-1:406091954977:parameter/TestArchitectAppNameStaging because no identity-based policy allows the ssm:GetParametersByPath action",
+        "    at process.<anonymous> (/var/runtime/index.js:35:15)",
+        "    at process.emit (events.js:400:28)",
+        "    at process.emit (domain.js:475:12)",
+        "    at processPromiseRejections (internal/process/promises.js:245:33)",
+        "    at processTicksAndRejections (internal/process/task_queues.js:96:32)"
+    ]
+}
+```
